@@ -2,12 +2,13 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('promise-form');
+  
   if (form) {
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', (event) => {
       event.preventDefault();
-
+      
       const delay = parseInt(event.target.delay.value, 10);
       const state = event.target.state.value;
 

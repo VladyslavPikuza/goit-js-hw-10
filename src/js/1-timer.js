@@ -4,7 +4,6 @@ import "flatpickr/dist/flatpickr.min.css";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
-
 const startButton = document.querySelector('button[data-start]');
 const daysElem = document.querySelector('[data-days]');
 const hoursElem = document.querySelector('[data-hours]');
@@ -12,7 +11,6 @@ const minutesElem = document.querySelector('[data-minutes]');
 const secondsElem = document.querySelector('[data-seconds]');
 let timerInterval = null;
 let userSelectedDate = null;
-
 
 const options = {
   enableTime: true,
@@ -31,14 +29,11 @@ const options = {
   },
 };
 
-
 flatpickr("#datetime-picker", options);
-
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
-
 
 function convertMs(ms) {
   const second = 1000;
@@ -54,15 +49,12 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-
-
 function updateTimerInterface({ days, hours, minutes, seconds }) {
   daysElem.textContent = addLeadingZero(days);
   hoursElem.textContent = addLeadingZero(hours);
   minutesElem.textContent = addLeadingZero(minutes);
   secondsElem.textContent = addLeadingZero(seconds);
 }
-
 
 startButton.addEventListener('click', () => {
   startButton.disabled = true;
@@ -84,4 +76,5 @@ startButton.addEventListener('click', () => {
     updateTimerInterface(timeLeft);
   }, 1000);
 });
+
 
