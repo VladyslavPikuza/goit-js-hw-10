@@ -1,6 +1,8 @@
 
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 
 const startButton = document.querySelector('button[data-start]');
@@ -13,20 +15,19 @@ let userSelectedDate = null;
 
 
 const options = {
-  enableTime: true, 
-  time_24hr: true,  
-  defaultDate: new Date(), 
-  minuteIncrement: 1, 
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
     if (selectedDate <= new Date()) {
-      alert('Please choose a date in the future');
+      iziToast.error({ title: 'Error', message: 'Please choose a date in the future' });
       startButton.disabled = true;
     } else {
       userSelectedDate = selectedDate;
       startButton.disabled = false;
     }
-    console.log(selectedDate); 
   },
 };
 
@@ -54,6 +55,7 @@ function convertMs(ms) {
 }
 
 
+
 function updateTimerInterface({ days, hours, minutes, seconds }) {
   daysElem.textContent = addLeadingZero(days);
   hoursElem.textContent = addLeadingZero(hours);
@@ -63,22 +65,23 @@ function updateTimerInterface({ days, hours, minutes, seconds }) {
 
 
 startButton.addEventListener('click', () => {
-  startButton.disabled = true; 
-  document.querySelector('#datetime-picker').disabled = true; 
+  startButton.disabled = true;
+  document.querySelector('#datetime-picker').disabled = true;
 
   timerInterval = setInterval(() => {
     const currentTime = new Date();
-    const timeDifference = userSelectedDate - currentTime; 
+    const timeDifference = userSelectedDate - currentTime;
 
     if (timeDifference <= 0) {
-      clearInterval(timerInterval); 
+      clearInterval(timerInterval);
       updateTimerInterface({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      alert('Countdown finished!');
-      document.querySelector('#datetime-picker').disabled = false; 
+      iziToast.success({ title: 'Complete', message: 'Countdown finished!' });
+      document.querySelector('#datetime-picker').disabled = false;
       return;
     }
 
-    const timeLeft = convertMs(timeDifference); 
+    const timeLeft = convertMs(timeDifference);
     updateTimerInterface(timeLeft);
-  }, 1000); 
+  }, 1000);
 });
+
